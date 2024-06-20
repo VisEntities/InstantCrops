@@ -132,7 +132,7 @@ namespace Oxide.Plugins
             if (player == null)
                 return;
 
-            if (PermissionUtil.HasPermission(player, PermissionUtil.USE))
+            if (!PermissionUtil.HasPermission(player, PermissionUtil.USE))
                 return;
 
             Item activeItem = player.GetActiveItem();

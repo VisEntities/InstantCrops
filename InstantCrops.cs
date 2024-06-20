@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Instant Crops", "VisEntities", "1.0.0")]
+    [Info("Instant Crops", "VisEntities", "1.1.0")]
     [Description("Fully mature plants as soon as they are planted.")]
     public class InstantCrops : RustPlugin
     {
@@ -114,6 +114,7 @@ namespace Oxide.Plugins
         private void Init()
         {
             _plugin = this;
+            PermissionUtil.RegisterPermissions();
         }
 
         private void Unload()
@@ -129,6 +130,9 @@ namespace Oxide.Plugins
 
             BasePlayer player = planner.GetOwnerPlayer();
             if (player == null)
+                return;
+
+            if (PermissionUtil.HasPermission(player, PermissionUtil.USE))
                 return;
 
             Item activeItem = player.GetActiveItem();
@@ -164,5 +168,31 @@ namespace Oxide.Plugins
         }
 
         #endregion Oxide Hooks
+
+        #region Permissions
+
+        private static class PermissionUtil
+        {
+            public const string USE = "instantcrops.use";
+            private static readonly List<string> _permissions = new List<string>
+            {
+                USE,
+            };
+
+            public static void RegisterPermissions()
+            {
+                foreach (var permission in _permissions)
+                {
+                    _plugin.permission.RegisterPermission(permission, _plugin);
+                }
+            }
+
+            public static bool HasPermission(BasePlayer player, string permissionName)
+            {
+                return _plugin.permission.UserHasPermission(player.UserIDString, permissionName);
+            }
+        }
+
+        #endregion Permission
     }
 }

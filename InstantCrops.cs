@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Instant Crops", "VisEntities", "1.1.0")]
+    [Info("Instant Crops", "VisEntities", "1.1.1")]
     [Description("Fully mature plants as soon as they are planted.")]
     public class InstantCrops : RustPlugin
     {
